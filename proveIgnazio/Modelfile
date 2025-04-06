@@ -1,0 +1,2 @@
+FROM ./models/base/gemma-3-1b-it-4bit
+ADAPTER ./models/adapters/adapter_gemma-3-1b-it-4bit
