@@ -1,6 +1,6 @@
 hf_dataset:
-  path: "Open-Orca/OpenOrca"
-  train_split: "train[:90%]"
-  valid_split: "train[-10%:]"
+  path: "rag-datasets/rag-mini-bioasq"
+  train_split: "question-answer-passages[:90%]"
+  valid_split: "question-answer-passages[-10%:]"
   prompt_feature: "question"
-  completion_feature: "response"
+  completion_feature: "answer"
