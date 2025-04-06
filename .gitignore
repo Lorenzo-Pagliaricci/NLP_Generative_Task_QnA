@@ -9,3 +9,6 @@
 .DS_Store
 /.idea
 .venv
+proveIgnazio/models
+proveIgnazio/data/processed
+proveIgnazio/data/raw
