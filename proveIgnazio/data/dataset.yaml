@@ -1,6 +1,6 @@
 hf_dataset:
-  path: "rag-datasets/rag-mini-bioasq"
-  train_split: "question-answer-passages[:90%]"
-  valid_split: "question-answer-passages[-10%:]"
+  path: "enelpol/rag-mini-bioasq"
+  train_split: "train[:80%]"
+  valid_split: "train[-20%:]"
   prompt_feature: "question"
   completion_feature: "answer"
