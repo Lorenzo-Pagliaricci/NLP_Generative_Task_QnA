@@ -1,2 +1,2 @@
-FROM ./models/base/gemma-3-1b-it-4bit
-ADAPTER ./models/adapters/adapter_gemma-3-1b-it-4bit
+FROM ./models/base/Llama-3.2-1B-Instruct-4bit
+ADAPTER ./models/adapters/adapter_Llama-3.2-1B-Instruct-4bit_2bs_4ls

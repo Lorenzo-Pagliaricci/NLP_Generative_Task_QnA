@@ -1,9 +1,4 @@
-mlx_lm.lora \
+mlx_lm.fuse \
     --model ./proveIgnazio/models/base/Ministral-8B-Instruct-2410-4bit \
     --adapter-path ./proveIgnazio/models/adapters/adapter_Ministral-8B-Instruct-2410-4bit \
-    --data proveIgnazio/data/processed \
-    --test 
-    # --batch-size 1 \
-    # --num-layers 4 \
-    # --iters 500 \
-    # --steps-per-eval 10
+    --save-path ./proveIgnazio/models/fused/fused_Ministral-8B-Instruct-2410-4bit \
