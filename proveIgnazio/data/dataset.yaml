@@ -1,0 +1,6 @@
+hf_dataset:
+  path: "Open-Orca/OpenOrca"
+  train_split: "train[:90%]"
+  valid_split: "train[-10%:]"
+  prompt_feature: "question"
+  completion_feature: "response"
