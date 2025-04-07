@@ -1,8 +1,9 @@
 mlx_lm.lora \
-    --model ./proveIgnazio/models/base/Ministral-8B-Instruct-2410-4bit \
-    --adapter-path ./proveIgnazio/models/adapters/adapter_Ministral-8B-Instruct-2410-4bit \
+    --model ./proveIgnazio/models/base/Llama-3.2-1B-Instruct-4bit \
+    --adapter-path ./proveIgnazio/models/adapters/adapter_Llama-3.2-1B-Instruct-4bit_2bs_4ls \
     --data proveIgnazio/data/processed \
-    --test 
+    --test \
+    --test-batches 2
     # --batch-size 1 \
     # --num-layers 4 \
     # --iters 500 \

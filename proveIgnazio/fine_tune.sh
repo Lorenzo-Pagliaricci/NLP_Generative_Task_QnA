@@ -10,9 +10,6 @@
 
 
 
-
-
-
 mlx_lm.lora \
     --model ./proveIgnazio/models/base/Llama-3.2-1B-Instruct-4bit \
     --train \
