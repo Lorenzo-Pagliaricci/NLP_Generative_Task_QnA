@@ -12,10 +12,6 @@
 
 
 
-
-
-
-
 mlx_lm.lora \
     --model ./proveIgnazio/models/base/Phi-3-mini-4k-instruct-4bit \
     --train \
