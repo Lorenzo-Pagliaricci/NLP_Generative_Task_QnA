@@ -9,8 +9,8 @@
 .DS_Store
 /.idea
 .venv
-proveIgnazio/models
-proveIgnazio/data/processed
-proveIgnazio/data/raw
-proveIgnazio/data/test
+proveIgnazio_MLX_LM/models
+proveIgnazio_MLX_LM/data/processed
+proveIgnazio_MLX_LM/data/raw
+proveIgnazio_MLX_LM/data/test
 NLP_Generative_Task_QnA.code-workspace

@@ -1,0 +1,6 @@
+hf_dataset:
+  path: "enelpol/rag-mini-bioasq"
+  train_split: "train[:80%]"
+  valid_split: "train[-20%:]"
+  prompt_feature: "question"
+  completion_feature: "answer"
