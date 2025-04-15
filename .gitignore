@@ -2,7 +2,7 @@
 /shelf/
 /workspace.xml
 # Editor-based HTTP Client requests
-/httpRequests/
+/httpRequests/ 
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
@@ -15,3 +15,5 @@ proveIgnazio_MLX_LM/data/raw
 proveIgnazio_MLX_LM/data/test
 NLP_Generative_Task_QnA.code-workspace
 proveIgnazio_Transformers_Library/data/prepared_data
+proveIgnazio_Transformers_Library/data/tokenized_data
+__pycache__/
