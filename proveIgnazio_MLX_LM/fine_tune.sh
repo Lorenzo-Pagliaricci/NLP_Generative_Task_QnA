@@ -9,13 +9,17 @@
 # 2_BEST # huggingface-cli download mlx-community/Llama-3.2-1B-Instruct-4bit  --local-dir ./proveIgnazio_MLX_LM/models/base/Llama-3.2-1B-Instruct-4bit
 # huggingface-cli download mlx-community/Qwen2.5-1.5B-Instruct-4bit  --local-dir ./proveIgnazio_MLX_LM/models/base/Qwen2.5-1.5B-Instruct-4bit
 # 1_BEST # huggingface-cli download mlx-community/Phi-3-mini-4k-instruct-4bit  --local-dir ./proveIgnazio_MLX_LM/models/base/Phi-3-mini-4k-instruct-4bit
+# huggingface-cli download mlx-community/Phi-3-mini-128k-instruct-4bit --local-dir ./proveIgnazio_MLX_LM/models/base/Phi-3-mini-128k-instruct-4bit
+
+
+
 
 
 
 mlx_lm.lora \
-    --model ./proveIgnazio_MLX_LM/models/base/Phi-3-mini-4k-instruct-4bit \
+    --model ./proveIgnazio_MLX_LM/models/base/Phi-3-mini-128k-instruct-4bit  \
     --train \
-	--adapter-path ./proveIgnazio_MLX_LM/models/adapters/adapter_Phi-3-mini-4k-instruct-4bit_2bs_4ls \
+	--adapter-path ./proveIgnazio_MLX_LM/models/adapters/adapter_Phi-3-mini-128k-instruct-4bit_2bs_4ls \
     --batch-size 2 \
     --val-batches 2 \
     --num-layers 4 \

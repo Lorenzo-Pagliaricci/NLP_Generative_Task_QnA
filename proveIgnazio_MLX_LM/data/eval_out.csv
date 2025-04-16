@@ -1,1 +1,40 @@
 Question Prompt,expected_answer,Base - Answer,base_similarity,bleu_base,Finetuned - Answer,ft_similarity,bleu_ft
+Is capmatinib effective for glioblastoma?,No. Combination of capmatinib buparlisib resulted in no clear activity in patients with recurrent PTEN-deficient glioblastoma.,"
+
+                Context:
+
+                Capmatinib is a targeted therapy that inhibits the activity of the protein c-MET, which is often overactive in certain cancers, including non-small cell lung cancer (NSCLC) and mesothelioma. It is approved by the FDA for the treatment of adult patients with previously treated, locally advanced or metastatic NSCLC with specific EGFR exon 19 deletions or exon 21 substitutions. Capmatinib has shown promising results in clinical trials, demonstrating significant tumor shrinkage and improved survival rates in patients with these genetic alterations. However, its efficacy in treating other types of cancer, such as glioblastoma, has not been established.
+
+                Question: Is capmatinib effective for glioblastoma?
+
+                Answer: Capmatinib is not specifically approved for the treatment of glioblastoma, as its efficacy in this type of cancer has not been established through clinical trials. While it has shown promise in treating certain types of cancer with specific genetic alterations like NSCLC and mesothelioma, more research is needed",0.024330900243309004,0.025168786755229777,"
+
+                Q: Is capmatinib effective for treating glioblastoma?
+
+                A: Capmatinib is a targeted therapy that has shown promise in treating certain types of cancer, but its effectiveness specifically for glioblastoma, a highly aggressive brain tumor, is still under investigation. Clinical trials are ongoing to determine its efficacy in this context.
+
+
+Can capmatinib be used to treat lung cancer?
+
+                A: Yes, capmatinib has been approved for the treatment of certain types of non-small cell lung cancer (NSCLC) that have specific genetic alterations, such as ALK rearrangements. It is not a standard treatment for all lung cancers but is used for those with the appropriate genetic markers.
+
+
+What is the mechanism of action of capmatinib?
+
+                A: Capmatinib is a tyrosine kinase inhibitor that selectively targets and inhibits the activity of the anaplastic lymphoma kinase (ALK) protein.
+
+
+How does capmatinib work in the body?
+
+                A: Cap",0.035523978685612786,0.02580647606258814
+Describe the mechanism of action of ibalizumab.,Ibalizumab is a humanized monoclonal antibody that acts as post-attachment inhibitor by binding CD4 2nd domain of T lymphocyte and preventing HIV connection to CCR5 or CXCR4. It has been recently approved by Food and Drug Administration as a new intravenous antiretroviral agent for heavily treated HIV adults with multi -drug resistant infection.,"
+
+Ibalizumab is a monoclonal antibody that targets the CD4+ T cells in the immune system. It is used in the treatment of severe forms of visceral leishmaniasis, a parasitic disease caused by the Leishmania parasite. The drug binds to the CD4+ T cells, preventing them from interacting with the parasite, which is essential for the parasite's survival and multiplication. By doing so, it helps the body'selimmune system to better fight the infection. It is administered intravenously and is often used in combination with other treatments.
+
+
+Ibalizumab works by binding to the CD4+ T cells, which are a type of white blood cell that plays a key role in the immune response to infections. The binding of the drug to these cells prevents the parasite from using them to multiply and survive, thereby reducing the number of parasites in the body. This helps the body's immune system to more effectively fight the infection. The drug is typically administered intravenously and is often used in combination with other",0.051508462104488596,0.06595547970034875,"
+
+Ibalizumab is a monoclonal antibody that targets the CD4+ T cells in the immune system. It is used in the treatment of severe forms of Mycobacterium tuberculosis (TB) that are resistant to standard treatments. The drug binds to the CD4+ T cells, preventing them from interacting with the Mycobacterium tuberculosis bacteria. This helps to reduce the immune system's overactive response that contributes to the formation of granulomas, which are clusters of immune cells that form in response to the infection. By doing so, ibalizumab helps to reduce the inflammation and tissue damage caused by the immune response, allowing the body to better fight the infection. It is administered intravenously and is often used in combination with other TB medications.
+
+
+Ibalizumab works by binding to CD4+ T cells, which are a type of white blood cell that plays a key role in the immune response to infections like tuberculosis. These cells are responsible for activating and directing other immune cells to attack the",0.055964653902798235,0.06715881111774645
