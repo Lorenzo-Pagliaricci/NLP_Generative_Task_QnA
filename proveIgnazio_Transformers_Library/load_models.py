@@ -7,11 +7,11 @@ from metrics_utils import compute_metrics
 
 # --- Configuration ---
 # Load environment variables from the .env file located in the specified path
-config = dotenv_values(".env")
+config = dotenv_values("/proveIgnazio_Transformers_Library/.env")
 
 # --- Load Models ---
 # Get the model name/path from the loaded configuration
-MODEL = config["T5_BASE_223M"]
+MODEL = config["T5_SMALL_60M"]
 PREPARED_DATASET = config.get("TOKENIZED_DATASET", config["PREPARED_DATASET"])
 SAVED_MODEL_PATH = config["SAVED_MODEL_PATH"]
 
@@ -32,12 +32,12 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL)
 
 # --- Load Training Arguments ---
 training_args = TrainingArguments(
-    output_dir="./results", # Directory to save the model and training outputs
-    per_device_train_batch_size=2, # Batch size for training on each device
-    per_device_eval_batch_size=2, # Batch size for evaluation on each device
-    gradient_accumulation_steps=1, # Number of steps to accumulate gradients before updating weights
+    output_dir="/proveIgnazio_Transformers_Library/results", # Directory to save the model and training outputs
+    per_device_train_batch_size=1, # Batch size for training on each device
+    per_device_eval_batch_size=1, # Batch size for evaluation on each device
+    gradient_accumulation_steps=10, # Number of steps to accumulate gradients before updating weights
     num_train_epochs=10, # Total number of training epochs
-    logging_dir="./logs", # Directory for storing logs
+    logging_dir="/proveIgnazio_Transformers_Library/logs", # Directory for storing logs
     logging_steps=10, # Log every 10 steps
     save_steps=500, # Save the model every 500 steps
     evaluation_strategy="steps", # Evaluate the model every 'eval_steps'
@@ -106,6 +106,6 @@ except Exception as e:
 
 
 # Save the trained model
-trainer.save_model(SAVED_MODEL_PATH) # Save the model to the specified directory
+trainer.save_model(SAVED_MODEL_PATH+'_'+MODEL) # Save the model to the specified directory
 # Save the tokenizer
-tokenizer.save_pretrained(SAVED_MODEL_PATH) # Save the tokenizer to the same directory
+tokenizer.save_pretrained(SAVED_MODEL_PATH+'_'+MODEL+'_'+'Tokenizer') # Save the tokenizer to the same directory
