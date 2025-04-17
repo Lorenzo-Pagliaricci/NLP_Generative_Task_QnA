@@ -38,7 +38,7 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL)
 training_args = TrainingArguments(
     output_dir="proveIgnazio_Transformers_Library/results", # Directory to save the model and training outputs
     per_device_train_batch_size=2, # Batch size for training on each device
-    per_device_eval_batch_size=2, # Batch size for evaluation on each device
+    per_device_eval_batch_size=1, # Batch size for evaluation on each device
     gradient_accumulation_steps=5, # Number of steps to accumulate gradients before updating weights
     num_train_epochs=10, # Total number of training epochs
     logging_dir=f"proveIgnazio_Transformers_Library/tensorboard_logs/{MODEL_NAME}", # Directory for storing logs
@@ -53,7 +53,7 @@ training_args = TrainingArguments(
     greater_is_better=False, # Whether a higher metric value is better
     learning_rate=5e-5,  # Learning rate
     warmup_steps=500, # Number of warmup steps for learning rate scheduler
-    eval_accumulation_steps=500, # Number of steps to accumulate gradients during evaluation
+    eval_accumulation_steps=10, # Muove ogni batch subito in CPU, evitando di creare buffer grandi
     eval_on_start=True, # Evaluate at the start of training
 )
 
