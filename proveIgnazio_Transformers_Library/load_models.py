@@ -30,6 +30,23 @@ model = AutoModelForSeq2SeqLM.from_pretrained(
     # quantization_config=quantization_config # Apply the defined quantization configuration
 )
 
+
+# --- LoRA Configuration ---
+# Define the LoRA configuration for model adaptation
+lora_config = LoraConfig(
+    task_type=TaskType.SEQ_2_SEQ_LM, # type of task to train on
+    inference_mode=False, # set to False for training
+    r=8, # dimension of the smaller matrices
+    lora_alpha=40, # scaling factor
+    lora_dropout=0.1, # dropout of LoRA layers
+    # target_modules=["q", "k", "v", "o"] # Specify the target modules for LoRA adaptation
+)
+
+# Apply LoRA using get_peft_model
+model = get_peft_model(model, lora_config)
+
+model.gradient_checkpointing_enable() # Enable gradient checkpointing to save memory during training
+
 # Load the tokenizer associated with the specific T5 model variant being used
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
 
@@ -39,10 +56,10 @@ training_args = TrainingArguments(
     output_dir="proveIgnazio_Transformers_Library/results", # Directory to save the model and training outputs
     per_device_train_batch_size=2, # Batch size for training on each device
     per_device_eval_batch_size=1, # Batch size for evaluation on each device
-    gradient_accumulation_steps=5, # Number of steps to accumulate gradients before updating weights
+    gradient_accumulation_steps=1, # Number of steps to accumulate gradients before updating weights
     num_train_epochs=10, # Total number of training epochs
     logging_dir=f"proveIgnazio_Transformers_Library/tensorboard_logs/{MODEL_NAME}", # Directory for storing logs
-    logging_steps=100, # Log every 10 steps
+    logging_steps=300, # Log every 10 steps
     save_steps=500, # Save the model every 500 steps
     evaluation_strategy="steps", # Evaluate the model every 'eval_steps'
     do_eval=True, # Perform evaluation during training
@@ -53,7 +70,7 @@ training_args = TrainingArguments(
     greater_is_better=False, # Whether a higher metric value is better
     learning_rate=5e-5,  # Learning rate
     warmup_steps=500, # Number of warmup steps for learning rate scheduler
-    eval_accumulation_steps=10, # Muove ogni batch subito in CPU, evitando di creare buffer grandi
+    eval_accumulation_steps=100, # Muove ogni batch subito in CPU, evitando di creare buffer grandi
     eval_on_start=True, # Evaluate at the start of training
 )
 
@@ -62,23 +79,13 @@ dataset = load_from_disk(PREPARED_DATASET)
 print(f"Loaded dataset from: {PREPARED_DATASET}")
 print(f"Dataset structure: {dataset}")
 
+dataset.with_format("torch") # Set the format of the dataset to PyTorch tensors
+
 # Check if we're using a tokenized dataset or if we need to tokenize on-the-fly
 is_tokenized = all(col in dataset["train"].column_names for col in ["input_ids", "attention_mask", "labels"])
 
 
-# --- LoRA Configuration ---
-# Define the LoRA configuration for model adaptation
-lora_config = LoraConfig(
-    task_type=TaskType.SEQ_2_SEQ_LM, # type of task to train on
-    inference_mode=False, # set to False for training
-    r=8, # dimension of the smaller matrices
-    lora_alpha=32, # scaling factor
-    lora_dropout=0.1, # dropout of LoRA layers
-    # target_modules=["q", "k", "v", "o"] # Specify the target modules for LoRA adaptation
-)
 
-# Apply LoRA using get_peft_model
-model = get_peft_model(model, lora_config)
 
 
 # Create a data collator for padding sequences in batches efficiently
