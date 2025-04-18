@@ -8,7 +8,6 @@ try:
 except Exception as e:
     print(f"Error loading metrics: {e}")
 
- 
 
 def compute_metrics(predictions, references):
     """
@@ -24,7 +23,9 @@ def compute_metrics(predictions, references):
     # Ensure that predictions and references are in the correct format
     if isinstance(predictions, list) and isinstance(references, list):
         predictions = [pred.strip() for pred in predictions]
-        references = [[ref.strip()] for ref in references]  # Wrap each reference in a list
+        references = [
+            [ref.strip()] for ref in references
+        ]  # Wrap each reference in a list
 
     # Compute BLEU score
     bleu_score = bleu.compute(predictions=predictions, references=references)
