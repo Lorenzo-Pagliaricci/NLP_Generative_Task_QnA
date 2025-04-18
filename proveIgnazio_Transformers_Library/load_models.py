@@ -10,7 +10,8 @@ from peft import LoraConfig, TaskType, get_peft_model
 
 # --- Configuration ---
 # Load environment variables from the .env file located in the specified path
-config = dotenv_values("proveIgnazio_Transformers_Library/.env")
+config = dotenv_values(".env")
+
 
 # --- Load Models ---
 # Get the model name/path from the loaded configuration
@@ -27,7 +28,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained(
     MODEL, # Model identifier
     torch_dtype=torch.bfloat16, # Use bfloat16 for mixed-precision inference
     device_map="auto", # Automatically map model layers to available devices (CPU/GPU)
-    # quantization_config=quantization_config # Apply the defined quantization configuration
+    # quantization_config=quantization_config, # Apply the defined quantization configuration
 )
 
 
