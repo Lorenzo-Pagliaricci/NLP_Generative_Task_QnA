@@ -1,3 +1,28 @@
+# --- Script Workflow ---
+# This script orchestrates the fine-tuning of a Seq2Seq language model (specifically FLAN-T5)
+# for a Question Answering task using the Hugging Face Transformers and PEFT libraries.
+# The key steps involved are:
+# 1.  **Import Libraries:** Import necessary modules from `torch`, `transformers`, `datasets`, `dotenv`, `peft`, `os`, and `numpy`.
+# 2.  **Environment Setup:** Configure PyTorch MPS fallback settings for macOS GPU usage.
+# 3.  **Configuration Loading:** Load environment variables (like model paths, dataset paths) from a `.env` file.
+# 4.  **Model Definition:** Specify the pre-trained model name (e.g., "FLAN_T5_SMALL_77M") and retrieve its path from the config. Define paths for the dataset and where the fine-tuned model will be saved.
+# 5.  **Quantization (Optional):** Define a quantization configuration (currently commented out) for potential model size reduction and performance improvement.
+# 6.  **Model Loading:** Load the specified pre-trained Seq2Seq model (e.g., FLAN-T5) using `AutoModelForSeq2SeqLM`, potentially applying quantization and mapping it to the appropriate device (CPU in this case).
+# 7.  **LoRA Configuration:** Define a Low-Rank Adaptation (LoRA) configuration using `LoraConfig` to enable efficient fine-tuning by adapting only a small number of parameters.
+# 8.  **PEFT Model Creation:** Apply the LoRA configuration to the base model using `get_peft_model` from the PEFT library.
+# 9.  **Tokenizer Loading:** Load the tokenizer corresponding to the chosen pre-trained model using `AutoTokenizer`.
+# 10. **Training Arguments:** Define training hyperparameters (batch size, epochs, learning rate, logging/saving frequency, evaluation strategy, etc.) using `Seq2SeqTrainingArguments`.
+# 11. **Dataset Loading:** Load the dataset, potentially pre-tokenized, from the disk path specified in the configuration.
+# 12. **Dataset Type Check:** Determine if the loaded dataset is already tokenized or requires on-the-fly tokenization.
+# 13. **Data Collator:** Initialize a `DataCollatorForSeq2Seq` to handle dynamic padding of input and label sequences within each batch.
+# 14. **Metrics Computation Function:** Define a wrapper function (`compute_metrics_for_trainer`) that prepares predictions and labels and calls the actual metric calculation logic (imported from `metrics_utils`). This is necessary for Seq2Seq tasks during evaluation.
+# 15. **Trainer Initialization:** Instantiate a `Seq2SeqTrainer` by providing the model, training arguments, datasets (train and validation), data collator, metrics function, and tokenizer.
+# 16. **On-the-Fly Tokenization (Conditional):** If the dataset is not pre-tokenized, define a `preprocess_function` and apply it using `.map()` to tokenize the data dynamically. Re-initialize the Trainer with the tokenized datasets.
+# 17. **Training Execution:** Start the fine-tuning process by calling `trainer.train()`. Includes basic error handling.
+# 18. **Model Saving:** Save the fine-tuned model's weights (specifically the adapted LoRA weights) and configuration using `trainer.save_model()`.
+# 19. **Tokenizer Saving:** Save the tokenizer associated with the model using `tokenizer.save_pretrained()` for easy reloading later.
+# --- End Script Workflow ---
+
 import torch
 from transformers import (
     AutoTokenizer,
@@ -13,11 +38,11 @@ from transformers import (
 )
 from dotenv import dotenv_values
 from datasets import load_from_disk
-from metrics_utils import compute_metrics_base  # Renamed import
+from metrics_utils import compute_metrics_base
 from functools import partial
 from peft import LoraConfig, TaskType, get_peft_model
 import os
-import numpy as np  # Added import
+import numpy as np
 
 # Set environment variable for MPS fallback
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
