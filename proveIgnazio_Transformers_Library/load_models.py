@@ -1,5 +1,10 @@
 import torch
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, TorchAoConfig
+from transformers import (
+    AutoTokenizer,
+    AutoModelForSeq2SeqLM,
+    TorchAoConfig,
+    AutoModelForCausalLM,
+)
 from transformers import TrainingArguments, Trainer
 from transformers import (
     Seq2SeqTrainer,
@@ -8,10 +13,11 @@ from transformers import (
 )
 from dotenv import dotenv_values
 from datasets import load_from_disk
-from metrics_utils import compute_metrics
+from metrics_utils import compute_metrics_base  # Renamed import
 from functools import partial
 from peft import LoraConfig, TaskType, get_peft_model
 import os
+import numpy as np  # Added import
 
 # Set environment variable for MPS fallback
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
@@ -23,20 +29,22 @@ config = dotenv_values(".env")
 
 # --- Load Models ---
 # Get the model name/path from the loaded configuration
-MODEL_NAME = "T5_SMALL_60M"
-MODEL = config["T5_SMALL_60M"]
+MODEL_NAME = "FLAN_T5_SMALL_77M"
+MODEL = config["FLAN_T5_SMALL_77M"]
 PREPARED_DATASET = config.get("TOKENIZED_DATASET", config["PREPARED_DATASET"])
 SAVED_MODEL_PATH = config["SAVED_MODEL_PATH"]
 
-# Define the quantization configuration using TorchAoConfig for int4 weight-only quantization
+# Define the quantization configuration using TorchAoConfig for int8 weight-only quantization
 quantization_config = TorchAoConfig("int8_weight_only")
 
 # Load the pre-trained Seq2Seq language model (T5)
 model = AutoModelForSeq2SeqLM.from_pretrained(
     MODEL,  # Model identifier
     torch_dtype=torch.bfloat16,  # Use bfloat16 for mixed-precision inference
+    # torch_dtype=torch.float32,  # Use float32 for mixed-precision inference
     device_map="cpu",  # Map the model to CPU (or "auto" for automatic mapping)
-    quantization_config=quantization_config,  # Apply the defined quantization configuration
+    # NOTE: non è la quantizzazione il problema, riabilitarla
+    # quantization_config=quantization_config,  # Apply the defined quantization configuration
 )
 
 
@@ -45,9 +53,9 @@ model = AutoModelForSeq2SeqLM.from_pretrained(
 lora_config = LoraConfig(
     task_type=TaskType.SEQ_2_SEQ_LM,  # type of task to train on
     inference_mode=False,  # set to False for training
-    r=8,  # dimension of the smaller matrices
+    r=2,  # dimension of the smaller matrices
     lora_alpha=40,  # scaling factor
-    lora_dropout=0.1,  # dropout of LoRA layers
+    lora_dropout=0.5,  # dropout of LoRA layers
     # target_modules=["q", "k", "v", "o"] # Specify the target modules for LoRA adaptation
 )
 
@@ -81,7 +89,8 @@ training_args = Seq2SeqTrainingArguments(
     warmup_steps=500,  # Number of warmup steps for learning rate scheduler
     dataloader_num_workers=0,  # Number of subprocesses to use for data loading
     eval_accumulation_steps=50,  # Muove ogni batch subito in CPU, evitando di creare buffer grandi
-    # eval_on_start=True,  # Evaluate at the start of training
+    eval_on_start=True,  # Evaluate at the start of training
+    predict_with_generate=True,  # Added: Necessary for Seq2Seq metrics
 )
 
 # Load the dataset
@@ -104,6 +113,45 @@ data_collator = DataCollatorForSeq2Seq(
     padding="longest",
 )
 
+
+def compute_metrics_for_trainer(eval_preds):
+    preds, labels = eval_preds
+    print(
+        f"compute_metrics_for_trainer - Original preds type: {type(preds)}, shape: {getattr(preds, 'shape', 'N/A')}"
+    )
+    print(
+        f"compute_metrics_for_trainer - Original labels type: {type(labels)}, shape: {getattr(labels, 'shape', 'N/A')}"
+    )
+    # Print some example values if they are numpy arrays
+    if hasattr(preds, "shape"):
+        print(
+            f"compute_metrics_for_trainer - preds sample: {preds[0][:20] if len(preds) > 0 else 'empty'}"
+        )  # Print first 20 tokens of first prediction
+    if hasattr(labels, "shape"):
+        print(
+            f"compute_metrics_for_trainer - labels sample: {labels[0][:20] if len(labels) > 0 else 'empty'}"
+        )  # Print first 20 tokens of first label
+
+    if isinstance(preds, tuple):
+        print("compute_metrics_for_trainer - preds is a tuple, taking first element")
+        preds = preds[0]
+        print(
+            f"compute_metrics_for_trainer - Updated preds type: {type(preds)}, shape: {getattr(preds, 'shape', 'N/A')}"
+        )
+        if hasattr(preds, "shape"):
+            print(
+                f"compute_metrics_for_trainer - preds sample after tuple extraction: {preds[0][:20] if len(preds) > 0 else 'empty'}"
+            )
+
+    # Ensure labels are handled correctly (e.g., removing padding for metrics)
+    # The -100 replacement happens in compute_metrics_base, which is fine
+
+    # Call the base function
+    return compute_metrics_base(
+        preds, labels, tokenizer, metric_rouge, metric_bleu, metric_meteor
+    )  # Pass tokenizer and metrics
+
+
 # Initialize the Trainer with the appropriate configuration
 if is_tokenized:
     print("Using pre-tokenized dataset")
@@ -113,7 +161,7 @@ if is_tokenized:
         train_dataset=dataset["train"],
         eval_dataset=dataset["validation"].select(range(100)),
         data_collator=data_collator,
-        compute_metrics=compute_metrics,  # Use the partial function with tokenizer
+        compute_metrics=compute_metrics_for_trainer,  # Use the wrapper function
         tokenizer=tokenizer,  # Pass the tokenizer to the Trainer
     )
 else:
@@ -154,7 +202,7 @@ else:
         train_dataset=tokenized_datasets["train"],
         eval_dataset=tokenized_datasets["validation"],
         data_collator=data_collator,
-        compute_metrics=compute_metrics,  # Use the partial function with tokenizer
+        compute_metrics=compute_metrics_for_trainer,  # Use the wrapper function
         tokenizer=tokenizer,  # Pass the tokenizer to the Trainer
     )
 
@@ -168,9 +216,13 @@ except Exception as e:
 
 # Save the trained model
 trainer.save_model(
-    SAVED_MODEL_PATH + "_" + MODEL
+    SAVED_MODEL_PATH + "_" + MODEL_NAME  # Use MODEL_NAME for consistency
 )  # Save the model to the specified directory
 # Save the tokenizer
 tokenizer.save_pretrained(
-    SAVED_MODEL_PATH + "_" + MODEL + "_" + "Tokenizer"
+    SAVED_MODEL_PATH
+    + "_"
+    + MODEL_NAME
+    + "_"
+    + "Tokenizer"  # Use MODEL_NAME for consistency
 )  # Save the tokenizer to the same directory

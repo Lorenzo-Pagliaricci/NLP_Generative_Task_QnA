@@ -28,6 +28,8 @@ for index, doc in enumerate(dataset["test"]):
 
 
 # --- Chunking dei documenti ---
+# NOTE: si possono avere anche tipologie di chunking diverse, come ad esempio:
+# - chunking per frasi - chunking per paragrafi - chunking per parole - chunking per caratteri - chunking per token - chunking per righe - chunking per pagine
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=200,  # 200 caratteri per chunk
     chunk_overlap=20,  # 20 caratteri di sovrapposizione tra i chunk

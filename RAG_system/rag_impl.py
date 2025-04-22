@@ -71,6 +71,7 @@ def main():
     # --- Generazione della risposta con ollama ---
     response = ollama.chat(
         model="mistral",  # Modello di chat da usare
+        # NOTE: Assicurati di avere il modello Mistral installato
         # ollama pull mistral -> per il download
         # ollama rm mistral -> per rimuovere il modello
         messages=[
