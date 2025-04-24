@@ -29,6 +29,7 @@ from transformers import (
     AutoModelForSeq2SeqLM,
     TorchAoConfig,
     AutoModelForCausalLM,
+    AutoConfig,
 )
 from transformers import TrainingArguments, Trainer
 from transformers import (
@@ -55,22 +56,27 @@ config = dotenv_values(".env")
 
 # --- Load Models ---
 # Get the model name/path from the loaded configuration
-MODEL_NAME = "T5_SMALL_60M"
-MODEL = config["T5_SMALL_60M"]
+MODEL_NAME = "M2M100_418M"
+MODEL = config["M2M100_418M"]
 PREPARED_DATASET = config.get("TOKENIZED_DATASET", config["PREPARED_DATASET"])
 SAVED_MODEL_PATH = config["SAVED_MODEL_PATH"]
 
 # Define the quantization configuration using TorchAoConfig for int8 weight-only quantization
 quantization_config = TorchAoConfig("int8_weight_only")
 
-# Load the pre-trained Seq2Seq language model (T5)
-model = AutoModelForSeq2SeqLM.from_pretrained(
-    MODEL,  # Model identifier
+
+config = AutoConfig.from_pretrained(
+    MODEL,
     torch_dtype=torch.bfloat16,  # Use bfloat16 for mixed-precision inference
     # torch_dtype=torch.float32,  # Use float32 for mixed-precision inference
     device_map="cpu",  # Map the model to CPU (or "auto" for automatic mapping)
     # NOTE: non è la quantizzazione il problema, riabilitarla
-    # quantization_config=quantization_config,  # Apply the defined quantization configuration
+    # quantization_config=quantization_config,  # Apply the defined quantization configuration)
+)
+
+# Load the pre-trained Seq2Seq language model (T5)
+model = AutoModelForSeq2SeqLM.from_config(
+    config,  # Load the model configuration
 )
 
 
@@ -82,7 +88,12 @@ lora_config = LoraConfig(
     r=2,  # dimension of the smaller matrices
     lora_alpha=40,  # scaling factor
     lora_dropout=0.5,  # dropout of LoRA layers
-    # target_modules=["q", "k", "v", "o"] # Specify the target modules for LoRA adaptation
+    target_modules=[
+        "k_proj",
+        "v_proj",
+        "q_proj",
+        "out_proj",
+    ],  # Specify the target modules for LoRA adaptation (Updated for M2M100)
 )
 
 # Apply LoRA using get_peft_model

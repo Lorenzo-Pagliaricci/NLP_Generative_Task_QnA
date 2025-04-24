@@ -20,5 +20,6 @@ __pycache__/
 proveIgnazio_Transformers_Library/models_google-t5
 results/
 tensorboard_logs/
+models*/
 .env
 faiss_index_bioasq/
