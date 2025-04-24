@@ -40,6 +40,7 @@ from dotenv import dotenv_values
 from datasets import load_from_disk
 from metrics_utils import compute_metrics_base
 from functools import partial
+from evaluate import load  # Import the evaluate library for metrics
 from peft import LoraConfig, TaskType, get_peft_model
 import os
 import numpy as np
@@ -54,8 +55,8 @@ config = dotenv_values(".env")
 
 # --- Load Models ---
 # Get the model name/path from the loaded configuration
-MODEL_NAME = "FLAN_T5_SMALL_77M"
-MODEL = config["FLAN_T5_SMALL_77M"]
+MODEL_NAME = "T5_SMALL_60M"
+MODEL = config["T5_SMALL_60M"]
 PREPARED_DATASET = config.get("TOKENIZED_DATASET", config["PREPARED_DATASET"])
 SAVED_MODEL_PATH = config["SAVED_MODEL_PATH"]
 
@@ -137,6 +138,11 @@ data_collator = DataCollatorForSeq2Seq(
     # padding="max_length",
     padding="longest",
 )
+
+# Load the metrics using the evaluate library
+metric_rouge = load("rouge")
+metric_bleu = load("bleu")
+metric_meteor = load("meteor")
 
 
 def compute_metrics_for_trainer(eval_preds):

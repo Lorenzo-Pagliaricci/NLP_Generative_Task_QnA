@@ -17,13 +17,17 @@
 
 
 mlx_lm.lora \
-    --model ./proveIgnazio_MLX_LM/models/base/Phi-3-mini-128k-instruct-4bit  \
+    --model Qwen/Qwen2.5-0.5B-Instruct \
     --train \
-	--adapter-path ./proveIgnazio_MLX_LM/models/adapters/adapter_Phi-3-mini-128k-instruct-4bit_2bs_4ls \
-    --batch-size 2 \
+	--adapter-path ./proveIgnazio_MLX_LM/models/adapters/adapter_Qwen2.5-0.5B-Instruct_2bs_6ls \
+    --batch-size 3 \
     --val-batches 2 \
-    --num-layers 4 \
+    --learning-rate 0.0001 \
+    --num-layers 6 \
     --data proveIgnazio_MLX_LM/data/processed \
-    --iters 500 \
-    --steps-per-eval 10 \
-    --grad-checkpoint
+    --iters 200 \
+    --steps-per-eval 50 \
+    --seed 42 \
+    --fine-tune-type lora \
+    --grad-checkpoint \
+    # --optimizer adam
