@@ -56,8 +56,8 @@ config = dotenv_values(".env")
 
 # --- Load Models ---
 # Get the model name/path from the loaded configuration
-MODEL_NAME = "M2M100_418M"
-MODEL = config["M2M100_418M"]
+MODEL_NAME = "BYT5_SMALL_300M"
+MODEL = config["BYT5_SMALL_300M"]
 PREPARED_DATASET = config.get("TOKENIZED_DATASET", config["PREPARED_DATASET"])
 SAVED_MODEL_PATH = config["SAVED_MODEL_PATH"]
 
@@ -89,10 +89,10 @@ lora_config = LoraConfig(
     lora_alpha=40,  # scaling factor
     lora_dropout=0.5,  # dropout of LoRA layers
     target_modules=[
-        "k_proj",
-        "v_proj",
-        "q_proj",
-        "out_proj",
+        "k",
+        "v",
+        "q",
+        "o",
     ],  # Specify the target modules for LoRA adaptation (Updated for M2M100)
 )
 
