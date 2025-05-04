@@ -56,8 +56,8 @@ config = dotenv_values(".env")
 
 # --- Load Models ---
 # Get the model name/path from the loaded configuration
-MODEL_NAME = "M2M100_418M"
-MODEL = config["M2M100_418M"]
+MODEL_NAME = "BYT5_SMALL_300M"
+MODEL = config["BYT5_SMALL_300M"]
 PREPARED_DATASET = config.get("TOKENIZED_DATASET", config["PREPARED_DATASET"])
 SAVED_MODEL_PATH = config["SAVED_MODEL_PATH"]
 
@@ -71,7 +71,7 @@ config = AutoConfig.from_pretrained(
     # torch_dtype=torch.float32,  # Use float32 for mixed-precision inference
     device_map="cpu",  # Map the model to CPU (or "auto" for automatic mapping)
     # NOTE: non è la quantizzazione il problema, riabilitarla
-    # quantization_config=quantization_config,  # Apply the defined quantization configuration)
+    quantization_config=quantization_config,  # Apply the defined quantization configuration)
 )
 
 # Load the pre-trained Seq2Seq language model (T5)
@@ -88,12 +88,12 @@ lora_config = LoraConfig(
     r=2,  # dimension of the smaller matrices
     lora_alpha=40,  # scaling factor
     lora_dropout=0.5,  # dropout of LoRA layers
-    target_modules=[
-        "k_proj",
-        "v_proj",
-        "q_proj",
-        "out_proj",
-    ],  # Specify the target modules for LoRA adaptation (Updated for M2M100)
+    # target_modules=[
+    #     "k_proj",
+    #     "v_proj",
+    #     "q_proj",
+    #     "out_proj",
+    # ],  # Specify the target modules for LoRA adaptation (Updated for M2M100)
 )
 
 # Apply LoRA using get_peft_model
@@ -108,9 +108,9 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL)
 # --- Load Training Arguments ---
 training_args = Seq2SeqTrainingArguments(
     output_dir="proveIgnazio_Transformers_Library/results",  # Directory to save the model and training outputs
-    per_device_train_batch_size=5,  # Batch size for training on each device
-    per_device_eval_batch_size=2,  # Batch size for evaluation on each device
-    gradient_accumulation_steps=1,  # Number of steps to accumulate gradients before updating weights
+    per_device_train_batch_size=1,  # Batch size for training on each device
+    per_device_eval_batch_size=1,  # Batch size for evaluation on each device
+    gradient_accumulation_steps=5,  # Number of steps to accumulate gradients before updating weights
     num_train_epochs=10,  # Total number of training epochs
     logging_dir=f"proveIgnazio_Transformers_Library/tensorboard_logs/{MODEL_NAME}",  # Directory for storing logs
     logging_steps=300,  # Log every 10 steps
@@ -122,12 +122,12 @@ training_args = Seq2SeqTrainingArguments(
     load_best_model_at_end=True,  # Load the best model at the end of training
     metric_for_best_model="eval_loss",  # Metric to determine the best model
     greater_is_better=False,  # Whether a higher metric value is better
-    learning_rate=5e-5,  # Learning rate
+    learning_rate=1e-5,  # Learning rate
     warmup_steps=500,  # Number of warmup steps for learning rate scheduler
     dataloader_num_workers=0,  # Number of subprocesses to use for data loading
     eval_accumulation_steps=50,  # Muove ogni batch subito in CPU, evitando di creare buffer grandi
-    eval_on_start=True,  # Evaluate at the start of training
-    predict_with_generate=True,  # Added: Necessary for Seq2Seq metrics
+    eval_on_start=False,  # Evaluate at the start of training
+    predict_with_generate=True,  # Necessary for Seq2Seq tasks to generate predictions
 )
 
 # Load the dataset
@@ -185,6 +185,17 @@ def compute_metrics_for_trainer(eval_preds):
                 f"compute_metrics_for_trainer - preds sample after tuple extraction: {preds[0][:20] if len(preds) > 0 else 'empty'}"
             )
 
+    # Address the warning: Convert list of arrays to a single array if necessary
+    # This check assumes 'preds' might be a list after tuple extraction or originally
+    if isinstance(preds, list) and len(preds) > 0 and isinstance(preds[0], np.ndarray):
+        print(
+            "compute_metrics_for_trainer - Converting list of numpy arrays to a single numpy array."
+        )
+        preds = np.array(preds)
+        print(
+            f"compute_metrics_for_trainer - Converted preds type: {type(preds)}, shape: {getattr(preds, 'shape', 'N/A')}"
+        )
+
     # Ensure labels are handled correctly (e.g., removing padding for metrics)
     # The -100 replacement happens in compute_metrics_base, which is fine
 
@@ -201,7 +212,7 @@ if is_tokenized:
         model=model,
         args=training_args,
         train_dataset=dataset["train"],
-        eval_dataset=dataset["validation"].select(range(100)),
+        eval_dataset=dataset["validation"],  # .select(range(100)),
         data_collator=data_collator,
         compute_metrics=compute_metrics_for_trainer,  # Use the wrapper function
         tokenizer=tokenizer,  # Pass the tokenizer to the Trainer
