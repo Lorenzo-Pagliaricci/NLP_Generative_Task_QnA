@@ -88,12 +88,12 @@ lora_config = LoraConfig(
     r=2,  # dimension of the smaller matrices
     lora_alpha=40,  # scaling factor
     lora_dropout=0.5,  # dropout of LoRA layers
-    # target_modules=[
-    #     "k_proj",
-    #     "v_proj",
-    #     "q_proj",
-    #     "out_proj",
-    # ],  # Specify the target modules for LoRA adaptation (Updated for M2M100)
+    target_modules=[
+        "k",
+        "v",
+        "q",
+        "o",
+    ],  # Specify the target modules for LoRA adaptation (Updated for M2M100)
 )
 
 # Apply LoRA using get_peft_model
