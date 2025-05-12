@@ -56,8 +56,8 @@ config = dotenv_values(".env")
 
 # --- Load Models ---
 # Get the model name/path from the loaded configuration
-MODEL_NAME = "BYT5_SMALL_300M"
-MODEL = config["BYT5_SMALL_300M"]
+MODEL_NAME = "TEXT_GEN_77M"
+MODEL = config["TEXT_GEN_77M"]
 PREPARED_DATASET = config.get("TOKENIZED_DATASET", config["PREPARED_DATASET"])
 SAVED_MODEL_PATH = config["SAVED_MODEL_PATH"]
 
@@ -108,24 +108,24 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL)
 # --- Load Training Arguments ---
 training_args = Seq2SeqTrainingArguments(
     output_dir="proveIgnazio_Transformers_Library/results",  # Directory to save the model and training outputs
-    per_device_train_batch_size=1,  # Batch size for training on each device
+    per_device_train_batch_size=5,  # Batch size for training on each device
     per_device_eval_batch_size=1,  # Batch size for evaluation on each device
-    gradient_accumulation_steps=5,  # Number of steps to accumulate gradients before updating weights
+    gradient_accumulation_steps=2,  # Number of steps to accumulate gradients before updating weights
     num_train_epochs=10,  # Total number of training epochs
     logging_dir=f"proveIgnazio_Transformers_Library/tensorboard_logs/{MODEL_NAME}",  # Directory for storing logs
-    logging_steps=300,  # Log every 10 steps
-    save_steps=500,  # Save the model every 500 steps
+    logging_steps=10,  # Log every 10 steps
+    save_steps=50,  # Save the model every 100 steps
     eval_strategy="steps",  # Evaluate the model every 'eval_steps'
     do_eval=True,  # Perform evaluation during training
-    eval_steps=500,  # Evaluate every 500 steps
+    eval_steps=50,  # Evaluate every 500 steps
     seed=42,  # Random seed for reproducibility
     load_best_model_at_end=True,  # Load the best model at the end of training
     metric_for_best_model="eval_loss",  # Metric to determine the best model
     greater_is_better=False,  # Whether a higher metric value is better
     learning_rate=1e-5,  # Learning rate
-    warmup_steps=500,  # Number of warmup steps for learning rate scheduler
+    warmup_steps=250,  # Number of warmup steps for learning rate scheduler
     dataloader_num_workers=0,  # Number of subprocesses to use for data loading
-    eval_accumulation_steps=50,  # Muove ogni batch subito in CPU, evitando di creare buffer grandi
+    eval_accumulation_steps=25,  # Muove ogni batch subito in CPU, evitando di creare buffer grandi
     eval_on_start=False,  # Evaluate at the start of training
     predict_with_generate=True,  # Necessary for Seq2Seq tasks to generate predictions
 )
