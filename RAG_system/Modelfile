@@ -1,0 +1,10 @@
+# Questo percorso è relativo alla directory da cui esegui 'ollama create'
+FROM ../proveIgnazio_Transformers_Library/models/merged_TEXT_GEN_77M_for_ollama
+
+# Opzionale: Parametri, template, system prompt
+# PARAMETER temperature 0.7
+# TEMPLATE """[INST] {{ .System }} {{ .Prompt }} [/INST]""" # Adatta il template se necessario per FLAN-T5
+# SYSTEM """Sei un assistente AI utile. Rispondi basandoti sul contesto fornito."""
+
+
+# ollama create mio_modello_flant5_custom -f Modelfile.mio_flant5_custom
