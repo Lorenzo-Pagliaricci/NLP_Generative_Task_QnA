@@ -115,36 +115,37 @@ def main():
     )
 
     # --- 5. Generazione della risposta con ollama ---
-    print("\nGenerazione della risposta con Ollama (Mistral)...")
-    try:
-        response = ollama.chat(
-            model="mistral",  # Modello di chat da usare (assicurati sia installato: ollama pull mistral)
-            messages=[
-                {
-                    "role": "system",
-                    "content": SYSTEM_PROMPT
-                    + context_for_llm,  # Fornisce il prompt di sistema e il contesto recuperato
-                },
-                {
-                    "role": "user",
-                    "content": query,  # Fornisce la query originale dell'utente
-                },
-            ],
-        )
+    # ! SCIRPT FOR OLLAMA MODELs
+    # print("\nGenerazione della risposta con Ollama (Mistral)...")
+    # try:
+    #     response = ollama.chat(
+    #         model="mistral",  # Modello di chat da usare (assicurati sia installato: ollama pull mistral)
+    #         messages=[
+    #             {
+    #                 "role": "system",
+    #                 "content": SYSTEM_PROMPT
+    #                 + context_for_llm,  # Fornisce il prompt di sistema e il contesto recuperato
+    #             },
+    #             {
+    #                 "role": "user",
+    #                 "content": query,  # Fornisce la query originale dell'utente
+    #             },
+    #         ],
+    #     )
 
-        # --- 6. Stampa della risposta ---
-        print("-" * 80)
-        print("Risposta del modello:")
-        print(response["message"]["content"])
-        print("-" * 80)
-    except Exception as e:
-        print(f"\nErrore durante la chiamata a Ollama: {e}")
-        print(
-            "Assicurati che Ollama sia in esecuzione e il modello 'mistral' sia disponibile."
-        )
-        print(
-            "Puoi avviare Ollama con 'ollama serve' e scaricare il modello con 'ollama pull mistral'."
-        )
+    #     # --- 6. Stampa della risposta ---
+    #     print("-" * 80)
+    #     print("Risposta del modello:")
+    #     print(response["message"]["content"])
+    #     print("-" * 80)
+    # except Exception as e:
+    #     print(f"\nErrore durante la chiamata a Ollama: {e}")
+    #     print(
+    #         "Assicurati che Ollama sia in esecuzione e il modello 'mistral' sia disponibile."
+    #     )
+    #     print(
+    #         "Puoi avviare Ollama con 'ollama serve' e scaricare il modello con 'ollama pull mistral'."
+    #     )
 
 
 if __name__ == "__main__":
