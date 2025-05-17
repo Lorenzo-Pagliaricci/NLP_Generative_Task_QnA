@@ -118,14 +118,15 @@ training_args = Seq2SeqTrainingArguments(
     eval_strategy="steps",  # Evaluate the model every 'eval_steps'
     do_eval=True,  # Perform evaluation during training
     eval_steps=50,  # Evaluate every 500 steps
+    eval_steps=50,  # Evaluate every 500 steps
     seed=42,  # Random seed for reproducibility
     load_best_model_at_end=True,  # Load the best model at the end of training
     metric_for_best_model="eval_loss",  # Metric to determine the best model
     greater_is_better=False,  # Whether a higher metric value is better
     learning_rate=1e-5,  # Learning rate
-    warmup_steps=500,  # Number of warmup steps for learning rate scheduler
+    warmup_steps=250,  # Number of warmup steps for learning rate scheduler
     dataloader_num_workers=0,  # Number of subprocesses to use for data loading
-    eval_accumulation_steps=50,  # Muove ogni batch subito in CPU, evitando di creare buffer grandi
+    eval_accumulation_steps=25,  # Muove ogni batch subito in CPU, evitando di creare buffer grandi
     eval_on_start=False,  # Evaluate at the start of training
     predict_with_generate=True,  # Necessary for Seq2Seq tasks to generate predictions
 )
