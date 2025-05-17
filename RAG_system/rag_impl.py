@@ -26,9 +26,13 @@ config = dotenv_values(".env")
 
 FAISS_INDEX_PATH = "faiss_index_bioasq"  # Path all'indice FAISS pre-costruito
 MODEL_NAME = config["MODEL_NAME"]
+# LOCAL_MODEL_PATH = (
+#     f"../proveIgnazio_Transformers_Library/models/merged_{MODEL_NAME}_for_ollama"
+# )
+
 LOCAL_MODEL_PATH = (
-    f"../proveIgnazio_Transformers_Library/models/merged_{MODEL_NAME}_for_ollama"
-)
+    '/Users/fabiodigregorio/Desktop/campus bio iscrizione/ Magistrale/Merone/NLP_Generative_Task_QnA/proveIgnazio_Transformers_Library/models/merged_T5_SMALL_60M_for_ollama'
+ )
 
 
 def load_vector_store(embeddings):
@@ -98,7 +102,7 @@ def main():
     """
 
     # Domanda dell'utente
-    query = "What is the implication of histone lysine methylation in medulloblastoma?"
+    query = "Is capmatinib effective for glioblastoma?"
 
     # --- 1. Caricamento del modello di embedding ---
     print("Caricamento del modello di embedding...")
