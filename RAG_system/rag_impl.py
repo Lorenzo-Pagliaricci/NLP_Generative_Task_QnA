@@ -102,7 +102,7 @@ def main():
     """
 
     # Domanda dell'utente
-    query = "Is capmatinib effective for glioblastoma?"
+    query = "What is the function of Neu5Gc (N-Glycolylneuraminic acid)?"
 
     # --- 1. Caricamento del modello di embedding ---
     print("Caricamento del modello di embedding...")
