@@ -29,10 +29,13 @@ config = dotenv_values(".env")
 
 FAISS_INDEX_PATH = "faiss_index_bioasq"  # Path all'indice FAISS pre-costruito
 MODEL_NAME = config["MODEL_NAME"]
-
-# ! METTERE IL PERCORSO COMPLETO DEL MODELLO LOCALE
-LOCAL_MODEL_PATH = (
-    f"../proveIgnazio_Transformers_Library/models/merged_{MODEL_NAME}_for_ollama"
+current_script_dir = os.path.dirname(os.path.abspath(__file__))
+LOCAL_MODEL_PATH = os.path.join(
+    current_script_dir,
+    "" "..",
+    "proveIgnazio_Transformers_Library",
+    "models",
+    f"merged_{MODEL_NAME}_for_ollama",
 )
 
 
