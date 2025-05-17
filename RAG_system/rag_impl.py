@@ -18,9 +18,17 @@
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 import ollama
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
+import torch
+from dotenv import dotenv_values
 
+config = dotenv_values(".env")
 
 FAISS_INDEX_PATH = "faiss_index_bioasq"  # Path all'indice FAISS pre-costruito
+MODEL_NAME = config["MODEL_NAME"]
+LOCAL_MODEL_PATH = (
+    f"../proveIgnazio_Transformers_Library/models/merged_{MODEL_NAME}_for_ollama"
+)
 
 
 def load_vector_store(embeddings):
@@ -115,36 +123,104 @@ def main():
     )
 
     # --- 5. Generazione della risposta con ollama ---
-    print("\nGenerazione della risposta con Ollama (Mistral)...")
+    # ! SCIRPT FOR OLLAMA MODELs
+    # print("\nGenerazione della risposta con Ollama (Mistral)...")
+    # try:
+    #     response = ollama.chat(
+    #         model="mistral",  # Modello di chat da usare (assicurati sia installato: ollama pull mistral)
+    #         messages=[
+    #             {
+    #                 "role": "system",
+    #                 "content": SYSTEM_PROMPT
+    #                 + context_for_llm,  # Fornisce il prompt di sistema e il contesto recuperato
+    #             },
+    #             {
+    #                 "role": "user",
+    #                 "content": query,  # Fornisce la query originale dell'utente
+    #             },
+    #         ],
+    #     )
+    #     # --- 6. Stampa della risposta ---
+    #     print("-" * 80)
+    #     print("Risposta del modello:")
+    #     print(response["message"]["content"])
+    #     print("-" * 80)
+    # except Exception as e:
+    #     print(f"\nErrore durante la chiamata a Ollama: {e}")
+    #     print(
+    #         "Assicurati che Ollama sia in esecuzione e il modello 'mistral' sia disponibile."
+    #     )
+    #     print(
+    #         "Puoi avviare Ollama con 'ollama serve' e scaricare il modello con 'ollama pull mistral'."
+    #     )
+
+    # --- 5. Fenerazione della risposta con modello custom ---
+    print("\nGenerazione della risposta con locale...")
     try:
-        response = ollama.chat(
-            model="mistral",  # Modello di chat da usare (assicurati sia installato: ollama pull mistral)
-            messages=[
-                {
-                    "role": "system",
-                    "content": SYSTEM_PROMPT
-                    + context_for_llm,  # Fornisce il prompt di sistema e il contesto recuperato
-                },
-                {
-                    "role": "user",
-                    "content": query,  # Fornisce la query originale dell'utente
-                },
-            ],
+        print(f"Caricamento del tokenizer da: {LOCAL_MODEL_PATH}")
+        tokenizer = AutoTokenizer.from_pretrained(LOCAL_MODEL_PATH)
+        print("Tokenizer caricato.")
+
+        print(f"Caricamento del modello da: {LOCAL_MODEL_PATH}")
+
+        # NOTE: device_map puo essere:
+        # mps per ARM cip, CUDA se GPU NVIDIA, cpu se non hai GPU
+        model = AutoModelForSeq2SeqLM.from_pretrained(
+            LOCAL_MODEL_PATH, device_map="mps"
         )
+        print("Modello caricato.")
+
+        text_generator = pipeline(
+            "text2text-generation",
+            model=model,
+            tokenizer=tokenizer,
+            # device=0,  # Imposta a 0 per GPU, -1 per CPU
+        )
+
+        # Costruzione del prompt per il modello
+        prompt_text = f"{SYSTEM_PROMPT}\n \
+                        {context_for_llm}\n\n\
+                        Question: {query}\n\n\
+                        Answer: \
+                    "
+        # ! Da verificare se il tokenizer ha un metodo per generare il prompt
+        # Oppure se hai usato un template di chat:
+        # messages = [
+        #    {"role": "system", "content": SYSTEM_PROMPT + context_for_llm},
+        #    {"role": "user", "content": query}
+        # ]
+        # prompt_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+
+        print("\nGenerazione della risposta...")
+        output = text_generator(
+            prompt_text,
+            max_length=512,  # Lunghezza massima della sequenza generata (input+output per Seq2Seq)
+            # max_new_tokens=150, # Per CausalLM, numero di nuovi token da generare
+            num_return_sequences=1,
+            # Aggiungi altri parametri come do_sample, temperature, top_p se necessario
+            # do_sample=True,
+            # temperature=0.7,
+            # top_p=0.9,
+            # early_stopping=True, # Per Seq2Seq
+        )
+
+        # L'output di pipeline("text2text-generation") è una lista di dizionari.
+        answer = output[0]["generated_text"].strip()
 
         # --- 6. Stampa della risposta ---
         print("-" * 80)
         print("Risposta del modello:")
-        print(response["message"]["content"])
+        print(answer)
         print("-" * 80)
     except Exception as e:
-        print(f"\nErrore durante la chiamata a Ollama: {e}")
+        print(f"\nErrore durante la generazione con il modello locale: {e}")
         print(
-            "Assicurati che Ollama sia in esecuzione e il modello 'mistral' sia disponibile."
+            "Assicurati che il percorso LOCAL_MODEL_PATH sia corretto e contenga un modello e tokenizer validi."
         )
         print(
-            "Puoi avviare Ollama con 'ollama serve' e scaricare il modello con 'ollama pull mistral'."
+            "Verifica di aver installato 'transformers', 'torch', e 'sentencepiece' (spesso necessario per i tokenizer)."
         )
+        print("Controlla anche di avere abbastanza memoria (RAM/VRAM).")
 
 
 if __name__ == "__main__":
