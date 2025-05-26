@@ -69,7 +69,7 @@ config = AutoConfig.from_pretrained(
     MODEL,
     torch_dtype=torch.bfloat16,  # Use bfloat16 for mixed-precision inference
     # torch_dtype=torch.float32,  # Use float32 for mixed-precision inference
-    device_map="cpu",  # Map the model to CPU (or "auto" for automatic mapping)
+    device_map="auto",  # Map the model to CPU (or "auto" for automatic mapping)
     # NOTE: non è la quantizzazione il problema, riabilitarla
     quantization_config=quantization_config,  # Apply the defined quantization configuration)
 )
@@ -222,8 +222,9 @@ else:
 
     # Define preprocessing function for on-the-fly tokenization
     def preprocess_function(examples):
-        prefix = "answer the question: "
-        inputs = [prefix + q for q in examples["question"]]
+        FINETUNING_SYSTEM_PROMPT = """You are a helpful reading assistant who answers questions.
+        Be concise. If you're unsure, just say that you don't know. \n\nQuestion: """
+        inputs = [FINETUNING_SYSTEM_PROMPT + q for q in examples["question"]]
 
         model_inputs = tokenizer(
             inputs,
