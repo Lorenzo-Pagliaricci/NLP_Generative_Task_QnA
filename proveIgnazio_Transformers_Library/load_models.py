@@ -56,8 +56,8 @@ config = dotenv_values(".env")
 
 # --- Load Models ---
 # Get the model name/path from the loaded configuration
-MODEL_NAME = "T5_SMALL_60M"
-MODEL = config["T5_SMALL_60M"]
+MODEL_NAME = "BYT5_SMALL_300M"
+MODEL = config["BYT5_SMALL_300M"]
 PREPARED_DATASET = config.get("TOKENIZED_DATASET", config["PREPARED_DATASET"])
 SAVED_MODEL_PATH = config["SAVED_MODEL_PATH"]
 
@@ -69,7 +69,7 @@ config = AutoConfig.from_pretrained(
     MODEL,
     torch_dtype=torch.bfloat16,  # Use bfloat16 for mixed-precision inference
     # torch_dtype=torch.float32,  # Use float32 for mixed-precision inference
-    device_map="cpu",  # Map the model to CPU (or "auto" for automatic mapping)
+    device_map="auto",  # Map the model to CPU (or "auto" for automatic mapping)
     # NOTE: non è la quantizzazione il problema, riabilitarla
     quantization_config=quantization_config,  # Apply the defined quantization configuration)
 )
@@ -117,7 +117,6 @@ training_args = Seq2SeqTrainingArguments(
     save_steps=50,  # Save the model every 500 steps
     eval_strategy="steps",  # Evaluate the model every 'eval_steps'
     do_eval=True,  # Perform evaluation during training
-    eval_steps=50,  # Evaluate every 500 steps
     eval_steps=50,  # Evaluate every 500 steps
     seed=42,  # Random seed for reproducibility
     load_best_model_at_end=True,  # Load the best model at the end of training
@@ -223,8 +222,9 @@ else:
 
     # Define preprocessing function for on-the-fly tokenization
     def preprocess_function(examples):
-        prefix = "answer the question: "
-        inputs = [prefix + q for q in examples["question"]]
+        FINETUNING_SYSTEM_PROMPT = """You are a helpful reading assistant who answers questions.
+        Be concise. If you're unsure, just say that you don't know. \n\nQuestion: """
+        inputs = [FINETUNING_SYSTEM_PROMPT + q for q in examples["question"]]
 
         model_inputs = tokenizer(
             inputs,
@@ -270,7 +270,7 @@ except Exception as e:
 
 # Save the trained model
 trainer.save_model(
-    SAVED_MODEL_PATH + "_" + MODEL_NAME  # Use MODEL_NAME for consistency
+    SAVED_MODEL_PATH + "_" + MODEL_NAME + '_V2' # Use MODEL_NAME for consistency
 )  # Save the model to the specified directory
 # Save the tokenizer
 tokenizer.save_pretrained(
@@ -279,4 +279,5 @@ tokenizer.save_pretrained(
     + MODEL_NAME
     + "_"
     + "Tokenizer"  # Use MODEL_NAME for consistency
+    + '_V2'
 )  # Save the tokenizer to the same directory
