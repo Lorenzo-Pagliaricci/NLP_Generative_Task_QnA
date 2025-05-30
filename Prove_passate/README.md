@@ -126,3 +126,8 @@ All'interno sono presenti i codici per finetunare il modello **BART_base**:
 
 ---
 
+---
+
+[⬆️ Torna al README principale](../README.md)
+
+
