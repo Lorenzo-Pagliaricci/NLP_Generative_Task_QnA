@@ -15,5 +15,8 @@ Abbiamo privilegiato dataset specializzati come **rag-mini-bioasq** per la speri
 - ### 📁 [MLX_LM](MLX_LM/README.md)  
   Contiene l’implementazione iniziale basata su **Apple MLX**, ambiente sperimentale per il fine-tuning e l’inferenza di modelli linguistici. Questa cartella documenta la fase di prototipazione e i limiti incontrati, giustificando la successiva migrazione verso la libreria Transformers di Hugging Face per una soluzione più robusta e modulare.
 
+- ### 📁 [RAG_system](RAG_system/README.md)  
+  Implementa il sistema completo di **Retrieval-Augmented Generation (RAG)** specifico per il dominio biomedico. Include il modulo di retrieval con FAISS per l’estrazione dinamica dei contesti rilevanti e la generazione delle risposte con modelli generativi fine-tunati tramite LoRA. Questa cartella contiene gli script chiave per la costruzione dell’indice, l’inferenza e la valutazione, rappresentando il cuore operativo del progetto.
+
 - ### 📁 [Transformers_Library](Transformers_Library/README.md)  
   Implementa la pipeline avanzata e ottimizzata di fine-tuning generativo basata su **Hugging Face Transformers**. Qui si trovano gli script principali per il caricamento, l’addestramento con tecniche PEFT (LoRA), la valutazione automatica tramite metriche dedicate e la gestione modulare dei modelli. Questa cartella rappresenta il cuore del progetto, combinando efficienza, riproducibilità e flessibilità d’uso.
