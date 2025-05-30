@@ -1,0 +1,53 @@
+Question Prompt,expected_answer,Base - Answer,base_similarity,bleu_base,Finetuned - Answer,ft_similarity,bleu_ft
+Is capmatinib effective for glioblastoma?,No. Combination of capmatinib buparlisib resulted in no clear activity in patients with recurrent PTEN-deficient glioblastoma.,"
+
+                Context:
+
+                Capmatinib is a targeted therapy that inhibits the activity of the protein c-MET, which is often overactive in certain cancers, including non-small cell lung cancer (NSCLC) and mesothelioma. It is approved by the FDA for the treatment of adult patients with previously treated, locally advanced or metastatic NSCLC with specific EGFR exon 19 deletions or exon 21 substitutions. Capmatinib has shown promising results in clinical trials, demonstrating significant tumor shrinkage and improved survival rates in patients with these genetic alterations. However, its efficacy in treating other types of cancer, such as glioblastoma, has not been established.
+
+                Question: Is capmatinib effective for glioblastoma?
+
+                Answer: Capmatinib is not specifically approved for the treatment of glioblastoma, as its efficacy in this type of cancer has not been established through clinical trials. While it has shown promise in treating certain types of cancer with specific genetic alterations like NSCLC and mesothelioma, more research is needed",0.024330900243309004,0.025168786755229777,"
+
+                Q: Is capmatinib effective for treating glioblastoma?
+
+                A: Capmatinib is a targeted therapy that has shown promise in treating certain types of cancer, but its effectiveness specifically for glioblastoma, a highly aggressive brain tumor, is still under investigation. Clinical trials are ongoing to determine its efficacy in this context.
+
+
+Can capmatinib be used to treat lung cancer?
+
+                A: Yes, capmatinib has been approved for the treatment of certain types of non-small cell lung cancer (NSCLC) that have specific genetic alterations, such as ALK rearrangements. It is not a standard treatment for all lung cancers but is used for those with the appropriate genetic markers.
+
+
+What is the mechanism of action of capmatinib?
+
+                A: Capmatinib is a tyrosine kinase inhibitor that selectively targets and inhibits the activity of the anaplastic lymphoma kinase (ALK) protein.
+
+
+How does capmatinib work in the body?
+
+                A: Cap",0.035523978685612786,0.02580647606258814
+Describe the mechanism of action of ibalizumab.,Ibalizumab is a humanized monoclonal antibody that acts as post-attachment inhibitor by binding CD4 2nd domain of T lymphocyte and preventing HIV connection to CCR5 or CXCR4. It has been recently approved by Food and Drug Administration as a new intravenous antiretroviral agent for heavily treated HIV adults with multi -drug resistant infection.,"
+
+Ibalizumab is a monoclonal antibody that targets the CD4+ T cells in the immune system. It is used in the treatment of severe forms of visceral leishmaniasis, a parasitic disease caused by the Leishmania parasite. The drug binds to the CD4+ T cells, preventing them from interacting with the parasite, which is essential for the parasite's survival and multiplication. By doing so, it helps the body'selimmune system to better fight the infection. It is administered intravenously and is often used in combination with other treatments.
+
+
+Ibalizumab works by binding to the CD4+ T cells, which are a type of white blood cell that plays a key role in the immune response to infections. The binding of the drug to these cells prevents the parasite from using them to multiply and survive, thereby reducing the number of parasites in the body. This helps the body's immune system to more effectively fight the infection. The drug is typically administered intravenously and is often used in combination with other",0.051508462104488596,0.06595547970034875,"
+
+Ibalizumab is a monoclonal antibody that targets the CD4+ T cells in the immune system. It is used in the treatment of severe forms of Mycobacterium tuberculosis (TB) that are resistant to standard treatments. The drug binds to the CD4+ T cells, preventing them from interacting with the Mycobacterium tuberculosis bacteria. This helps to reduce the immune system's overactive response that contributes to the formation of granulomas, which are clusters of immune cells that form in response to the infection. By doing so, ibalizumab helps to reduce the inflammation and tissue damage caused by the immune response, allowing the body to better fight the infection. It is administered intravenously and is often used in combination with other TB medications.
+
+
+Ibalizumab works by binding to CD4+ T cells, which are a type of white blood cell that plays a key role in the immune response to infections like tuberculosis. These cells are responsible for activating and directing other immune cells to attack the",0.055964653902798235,0.06715881111774645
+What is the function of Neu5Gc (N-Glycolylneuraminic acid)?,"N-glycolylneuraminic acid (Neu5Gc) is an immunogenic sugar of dietary origin that metabolically incorporates into diverse native glycoconjugates in humans.  Humans lack a functional cytidine monophosphate-N-acetylneuraminic acid hydroxylase (CMAH) protein and cannot synthesize the sugar Neu5Gc, an innate mammalian signal of self. N-Glycolylneuraminic acid (Neu5Gc) can be incorporated in human cells and can trigger immune response, a response that is diverse and polyclonal. As dietary Neu5Gc is primarily found in red meat and milk products, it is suggested that this ongoing antigen-antibody reaction may generate chronic inflammation, possibly contributing to the high frequency of diet-related carcinomas and other diseases in humans.","
+
+Neu5Gc is a sialic acid variant found in the cell membranes of some animals, including humans, but not in others. It is a component of glycoconjugates, which are molecules that play a crucial role in cell-cell interactions, signaling, and immune responses. Neu5Gc is incorporated into the glycocalyx, the carbohydrate-rich layer that coats the exterior of cells. It is involved in the protection of cells from damage and infection, and it can influence the lifespan of red blood cells. In humans, Neu5Gc is found in the glycolylneuraminic acid (GcNAc) residues of glycoproteins and glycolipids, which are present on the cell surface. The presence of Neu5Gc in the glycocalyx can affect the immune system, as it is recognized by specific antibodies, which can lead to an immune response. This response is typically harmless but can be problematic in individuals with a deficiency in the enzyme that breaks down Neu5Gc, leading to the accum",0.06424747174301011,0.1287834270265733,"
+
+Neu5Gc is a sialic acid variant found in the glycan structures of some animals, including humans, but not in others. It is a component of the glycan layer that covers the surface of cells and is involved in cell-cell interactions, signaling, and protection from pathogens. It plays a role in the immune response and can be recognized by specific antibodies. In humans, Neu5Gc is found in the glycans of red blood cells, the gastrointestinal tract, and the brain. It is also present in the mucous membranes and respiratory tract. The presence of Neu5Gc in the diet can lead to an immune response in some individuals, as the body may perceive it as a foreign substance. This is why some people, particularly those of European descent, may have an allergic reaction to red meat containing Neu5Gc, which is naturally occurring in red meat from non-human mammals. The enzyme that breaks down Neu5Gc is called N-acetylglucosamine-6-phosphate deacetylase (N-Gl",0.009433962264150943,0.09728962893378613
+What is the mechanism of action of Inclisiran?,"Inclisiran, a novel, synthetic, siRNA molecule, inhibits PCSK9 synthesis in hepatocytes. Inclisiran targets intracellular PCSK9 synthesis specifically, resulting in a dose-dependent, long-term, significant reduction in LDL-C.","
+
+Inclisiran is an investigational medicine that works by targeting a protein called PCSK9 (proprotein convertase subtilisin/kexin type 9) to lower cholesterol levels in the blood. It is an RNA interference (RNAi) therapy that uses small, non-coding, antisense RNA molecules to reduce the production of PCSK9, which in turn lowers the number of low-density lipoprotein (LDL) cholesterefor transporting cholesterol in the blood. By lowering PCSK9 levels, Inclisiran increases the number of LDL receptors available to remove LDL cholesterol from the bloodstream, which can help prevent cardiovascular diseases. Inclisiran is administered as an injection every six months, and it has been shown to significantly reduce LDL cholesterol levels in adults with atherosclerotic cardiovascular disease or at high risk of developing it. Clinical trials have demonstrated that Inclisiran can reduce the risk of cardiovascular events in",0.057441253263707574,0.060429642547592304,"
+
+Inclisiran is an investigational medicine that works by targeting a protein called PCSK9 (proprotein convertase subtilisin/kexin type 9) to lower cholesterol levels in the blood. It is an RNA interference (RNAi) therapy that uses small, non-coding, antisense RNA molecules to reduce the production of PCSK9, which in turn lowers the number of LDL (low-density lipoprotein) cholesterin in the bloodstream. By inhibiting PCSK9, Inclisiran increases the number of LDL receptors available to remove LDL cholesterol from the blood, which can help prevent cardiovascular diseases. It is administered as an injection under the skin every six months. Clinical trials have shown that Inclisiran can significantly reduce the risk of cardiovascular events in adults with a history of cardiovascular disease or at high risk of developing cardiovascular disease.
+
+
+Inclisiran is a small, single-dose, self-admin",0.06222222222222222,0.05778729443803429

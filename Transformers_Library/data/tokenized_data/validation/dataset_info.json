@@ -1,0 +1,65 @@
+{
+  "builder_name": "parquet",
+  "citation": "",
+  "config_name": "question-answer-passages",
+  "dataset_name": "rag-mini-bioasq",
+  "dataset_size": 1906559,
+  "description": "",
+  "download_checksums": {
+    "hf://datasets/enelpol/rag-mini-bioasq@8a845907dc1cff31d42fa6f7bb9c6eef5f3ae6f6/question-answer-passages/train-00000-of-00001.parquet": {
+      "num_bytes": 1122204,
+      "checksum": null
+    },
+    "hf://datasets/enelpol/rag-mini-bioasq@8a845907dc1cff31d42fa6f7bb9c6eef5f3ae6f6/question-answer-passages/test-00000-of-00001.parquet": {
+      "num_bytes": 187368,
+      "checksum": null
+    }
+  },
+  "download_size": 1309572,
+  "features": {
+    "input_ids": {
+      "feature": {
+        "dtype": "int32",
+        "_type": "Value"
+      },
+      "_type": "Sequence"
+    },
+    "attention_mask": {
+      "feature": {
+        "dtype": "int8",
+        "_type": "Value"
+      },
+      "_type": "Sequence"
+    },
+    "labels": {
+      "feature": {
+        "dtype": "int64",
+        "_type": "Value"
+      },
+      "_type": "Sequence"
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 3216131,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 1635430,
+      "num_examples": 4012,
+      "dataset_name": "rag-mini-bioasq"
+    },
+    "test": {
+      "name": "test",
+      "num_bytes": 271129,
+      "num_examples": 707,
+      "dataset_name": "rag-mini-bioasq"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}

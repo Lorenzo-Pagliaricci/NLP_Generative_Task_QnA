@@ -33,7 +33,7 @@ current_script_dir = os.path.dirname(os.path.abspath(__file__))
 LOCAL_MODEL_PATH = os.path.join(
     current_script_dir,
     "" "..",
-    "proveIgnazio_Transformers_Library",
+    "Transformers_Library",
     "models",
     f"merged_{MODEL_NAME}_for_rag_V2",
 )
@@ -221,7 +221,7 @@ def main():
         default_dataset_path = os.path.join(
             current_script_dir,
             "..",
-            "proveIgnazio_Transformers_Library",
+            "Transformers_Library",
             "data",
             "prepared_data",
         )
