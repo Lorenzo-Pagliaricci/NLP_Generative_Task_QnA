@@ -97,3 +97,7 @@ Abbiamo scelto di non proseguire con MLX-LM come soluzione principale perché:
   - Community attiva
 
 > 🔍 **Nota:** Nonostante ciò, MLX-LM è stata utile come fase esplorativa e resta una buona opzione per test **rapidi** su hardware Apple.
+
+---
+
+[⬆️ Torna al README principale](../README.md)

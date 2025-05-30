@@ -146,3 +146,7 @@ Il sistema migliora la precisione e la specificità delle risposte nel dominio b
 È stato ottimizzato per Apple Silicon (MPS), ma è compatibile anche con GPU CUDA.
 
 Tutti gli script sono modulari, documentati e facilmente riutilizzabili per esperimenti e adattamenti futuri.
+
+---
+
+[⬆️ Torna al README principale](../README.md)

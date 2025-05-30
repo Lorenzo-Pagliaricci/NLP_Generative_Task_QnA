@@ -63,3 +63,8 @@ Abbiamo scelto Transformers di Hugging Face come ambiente principale per:
 ## 📌 Note Finali
 
 La cartella **`transformers`** fornisce una pipeline modulare, trasparente e facilmente estendibile per esperimenti avanzati di fine-tuning generativo in ambito biomedico, con particolare attenzione alla **riproducibilità** e **ottimizzazione delle risorse**.
+
+
+---
+
+[⬆️ Torna al README principale](../README.md)
