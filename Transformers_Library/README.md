@@ -17,15 +17,15 @@ Abbiamo scelto Transformers di Hugging Face come ambiente principale per:
 
 ## 📁 Struttura della Cartella e Funzioni Principali
 
-| File                           | Funzione                                                                                   |
-| ------------------------------ | ------------------------------------------------------------------------------------------ |
-| `load_models.py`                | Caricamento modello e tokenizer, configurazione e avvio del training con parametri PEFT.  |
-|                                | Integrazione LoRA, setup dei parametri di training (learning rate, batch size, ecc.).       |
-|                                | Calcolo delle metriche (ROUGE, BLEU, METEOR) personalizzate tramite `metrics_utils.py`.    |
-|                                | Salvataggio degli adapter e tokenizer fine-tunati.                                        |
+| File                                | Funzione                                                                                    |
+| ----------------------------------- | ------------------------------------------------------------------------------------------- |
+| `load_models.py`                    | Caricamento modello e tokenizer, configurazione e avvio del training con parametri PEFT.    |
+|                                     | Integrazione LoRA, setup dei parametri di training (learning rate, batch size, ecc.).       |
+|                                     | Calcolo delle metriche (ROUGE, BLEU, METEOR) personalizzate tramite `metrics_utils.py`.     |
+|                                     | Salvataggio degli adapter e tokenizer fine-tunati.                                          |
 | `merge_base_and_adapt_ft_models.py` | Fusione (“merge”) degli adapter LoRA nel modello base per creare un checkpoint stand-alone. |
-|                                | Gestione errori, salvataggio tokenizer e percorsi standardizzati per riutilizzabilità.     |
-| `metrics_utils.py`              | Calcolo delle metriche di generazione (ROUGE, BLEU, METEOR) con pre-elaborazione output.  |
+|                                     | Gestione errori, salvataggio tokenizer e percorsi standardizzati per riutilizzabilità.      |
+| `metrics_utils.py`                  | Calcolo delle metriche di generazione (ROUGE, BLEU, METEOR) con pre-elaborazione output.    |
 
 ---
 
@@ -55,7 +55,7 @@ Abbiamo scelto Transformers di Hugging Face come ambiente principale per:
 - Python 3.8+
 - Pacchetti:
   ```bash
-  pip install transformers datasets peft accelerate evaluate
+  pip install -r requirements.txt
   ```
 
 ---
@@ -63,7 +63,6 @@ Abbiamo scelto Transformers di Hugging Face come ambiente principale per:
 ## 📌 Note Finali
 
 La cartella **`transformers`** fornisce una pipeline modulare, trasparente e facilmente estendibile per esperimenti avanzati di fine-tuning generativo in ambito biomedico, con particolare attenzione alla **riproducibilità** e **ottimizzazione delle risorse**.
-
 
 ---
 

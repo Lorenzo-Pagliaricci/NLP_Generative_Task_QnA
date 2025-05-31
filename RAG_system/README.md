@@ -16,7 +16,7 @@ Il sistema RAG è suddiviso in due componenti principali:
 ### 2. Generazione
 
 - Produce risposte condizionate solo sul **contesto recuperato**.
-- Utilizza modelli generativi come **BART** o **Gemma**, ottimizzati tramite **LoRA (Low-Rank Adaptation)**.
+- Utilizza modelli generativi, ottimizzati tramite **LoRA (Low-Rank Adaptation)**.
 - Funziona completamente in locale su CPU/GPU MPS o CUDA.
 
 ---
@@ -28,17 +28,17 @@ Il sistema RAG è suddiviso in due componenti principali:
 Trasforma il corpus testuale in un indice vettoriale interrogabile.
 
 #### Flusso operativo:
+
 - Caricamento del dataset `enelpol/rag-mini-bioasq` da Hugging Face.
 - Conversione dei passaggi in oggetti `Document` con metadati.
 - Suddivisione dei testi in chunk (200 caratteri, overlap 20).
 - Generazione embedding con `BAAI/bge-base-en-v1.5`.
 - Creazione dell’indice FAISS e salvataggio locale:
-  
+
 ```python
   vector_store = FAISS.from_documents(chunked_documents, embeddings)
   vector_store.save_local("faiss_index_bioasq")
 ```
-
 
 ## 🔁 `rag_impl.py` – Retrieval + Generazione
 
@@ -91,11 +91,11 @@ Effettuato con [🤗 Transformers](https://huggingface.co/transformers) e tecnic
 
 ### 📌 Valutazione della Generazione (QA)
 
-| Metrica   | Caratteristiche                                                                 |
-|-----------|----------------------------------------------------------------------------------|
-| ROUGE-L   | Sequenza comune più lunga (coerenza strutturale e contenutistica)              |
-| METEOR    | Riconosce sinonimi/parafrasi; valuta anche la struttura grammaticale           |
-| BLEU      | Precisione sugli n-grammi (meno adatta per QA con risposte parafrasate)         |
+| Metrica | Caratteristiche                                                         |
+| ------- | ----------------------------------------------------------------------- |
+| ROUGE-L | Sequenza comune più lunga (coerenza strutturale e contenutistica)       |
+| METEOR  | Riconosce sinonimi/parafrasi; valuta anche la struttura grammaticale    |
+| BLEU    | Precisione sugli n-grammi (meno adatta per QA con risposte parafrasate) |
 
 ### 📌 Valutazione del Retrieval
 
@@ -108,11 +108,11 @@ Effettuato con [🤗 Transformers](https://huggingface.co/transformers) e tecnic
 
 Sistema suddiviso in moduli indipendenti:
 
-| Script               | Funzione                                                              |
-|----------------------|-----------------------------------------------------------------------|
-| `vector_store_impl.py` | Costruisce l’indice FAISS a partire dal corpus testuale              |
-| `rag_impl.py`        | Interroga l’indice e genera la risposta                               |
-| `metrics_utils.py`   | Calcola ROUGE, BLEU, METEOR per la valutazione automatica             |
+| Script                 | Funzione                                                  |
+| ---------------------- | --------------------------------------------------------- |
+| `vector_store_impl.py` | Costruisce l’indice FAISS a partire dal corpus testuale   |
+| `rag_impl.py`          | Interroga l’indice e genera la risposta                   |
+| `metrics_utils.py`     | Calcola ROUGE, BLEU, METEOR per la valutazione automatica |
 
 ---
 
@@ -121,7 +121,7 @@ Sistema suddiviso in moduli indipendenti:
 Assicurati di avere installato i seguenti pacchetti:
 
 ```bash
-pip install transformers datasets peft faiss-cpu accelerate evaluate langchain
+pip install -r requirements.txt
 ```
 
 ## 🛠 Esecuzione
@@ -137,7 +137,7 @@ python vector_store_impl.py
 Esegui il comando seguente per generare una risposta condizionata al contesto recuperato:
 
 ```bash
-python rag_impl.py --query "What is the treatment for melanoma?"
+python rag_impl.py
 ```
 
 ❗ Considerazioni Finali  
