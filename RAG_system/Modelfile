@@ -1,5 +1,5 @@
 # Questo percorso è relativo alla directory da cui esegui 'ollama create'
-FROM ../proveIgnazio_Transformers_Library/models/merged_TEXT_GEN_77M_for_ollama
+FROM ../Transformers_Library/models/merged_TEXT_GEN_77M_for_ollama
 
 
 # NOTE: DA NOON COPILAE
