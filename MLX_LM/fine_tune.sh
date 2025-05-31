@@ -17,9 +17,9 @@
 
 
 mlx_lm.lora \
-    --model Qwen/Qwen2.5-0.5B-Instruct \
+    --model ./MLX_LM/models/base/Phi-3-mini-128k-instruct-4bit \
     --train \
-	--adapter-path ./MLX_LM/models/adapters/adapter_Qwen2.5-0.5B-Instruct_2bs_6ls \
+	--adapter-path ./MLX_LM/models/adapters/adapter_Phi-3-mini-128k-instruct-4bit_3bs_6ls \
     --batch-size 3 \
     --val-batches 2 \
     --learning-rate 0.0001 \
