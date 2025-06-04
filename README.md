@@ -1,3 +1,6 @@
+> [!NOTE] <br>
+> Potete trovare la Relazione Finale qui: [Relazione_NLP_Generative_Task_QnA.pdf](Relazione_NLP_Generative_Task_QnA.pdf)
+
 # 📚 Documentazione delle Cartelle del Progetto
 
 In questo lavoro presentiamo un sistema di **domanda-risposta generativo (RAG)** specificamente progettato per il dominio biomedico. L’obiettivo è superare i limiti di efficienza e generalizzazione tipici dei modelli di grandi dimensioni, adottando modelli leggeri e strategie di fine-tuning parameter-efficient (LoRA). La pipeline integra un retrieval semantico basato su FAISS e modelli generativi, addestrati con tecniche PEFT tramite la libreria Transformers di Hugging Face.
